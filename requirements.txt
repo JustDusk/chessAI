@@ -1,2 +1,2 @@
 typing
-pygame
+pygame-ce
