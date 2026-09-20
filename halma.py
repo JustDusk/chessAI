@@ -245,6 +245,10 @@ def random_bot(
     player: int,
     visualize_tree: bool
 ) -> Tuple[str, str]:
+
+    
+
+
     if player not in [1, 2, 3, 4]:
         raise ValueError(f"Player {player} is not a valid player")
 
@@ -266,11 +270,16 @@ def random_bot(
 
                     if check_legal_move(board, oldPos, newPos):
                         legal_moves.append((oldPos, newPos))
+    
 
+    bfs()
     if not legal_moves:
         raise ValueError(f"Player {player} has no legal moves")
-
+    
     oldPos, newPos = random.choice(legal_moves)
+    bfs(board, player, visualize_tree, oldPos)
+
+
 
     if visualize_tree:
         print("Random bot: no minimax search tree to visualize.")
@@ -306,7 +315,32 @@ def illegal_bot(
 
     raise ValueError(f"Player {player} has no pieces")
        
-def bfs(position):
-    return -1;
+def bfs(
+    board: List[List[int]],
+    player: int,
+    visualize_tree: bool,
+    pos: List[int]
+    ):
 
+
+    visited: List[List[int]] = [
+      [0,0,0,0,0],
+      [0,0,0,0,0],
+      [0,0,0,0,0],
+      [0,0,0,0,0],
+      [0,0,0,0,0]
+    ]
+
+    queue = []
+    queue.append(pos)
+    visited[pos[0]][pos[1]] = 1;
+
+    while queue:
+        s = queue.pop(0)
+        print(s)
+        nextPos = [[pos[0]+1, pos[1]] ,[pos[0]+2, pos[1]] ,[pos[0]-1, pos[1]] ,[pos[0]-2, pos[1]], [pos[0], pos[1]+1], [pos[0], pos[1]+2], [pos[0], pos[1]-1], [pos[0], pos[1]-2]]
+        for i in nextPos:
+            if check_legal_move(pos, i):
+                if visited[i[0]][i[1]] != 1:
+                    queue.append(i)
 

@@ -15,7 +15,8 @@ from halma import (
     random_bot,
     illegal_bot,
     win_cells_1v1,
-    initial_pos_1v1
+    initial_pos_1v1,
+    bfs
 )
 
 # True: human player 1 versus bot player 2. False: two local humans.
@@ -39,7 +40,7 @@ BotFunction = Callable[
 ]
 
 # You can set your bot function here, the default one is random_bot, which as the name suggests makes random moves
-BOT_FUNCTION: BotFunction = illegal_bot
+BOT_FUNCTION: BotFunction = random_bot
 
 
 class HalmaGame:
