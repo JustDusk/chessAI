@@ -50,6 +50,7 @@ win_cells_1v1: Dict[int, List[Tuple[int, int]]] = {
 '''
 Utility function to parse input string and transform it into Tuple
 '''
+
 def parse_position(position: str) -> Tuple[int, int]:
     position = position.strip().lower()
 
@@ -304,7 +305,8 @@ def illegal_bot(
                 return position, position
 
     raise ValueError(f"Player {player} has no pieces")
-    
-    
-    
-    
+       
+def bfs(position):
+    return -1;
+
+
