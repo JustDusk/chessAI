@@ -282,23 +282,48 @@ def random_bot(
         raise ValueError(f"Player {player} has no legal moves")
     
     oldPos, newPos = random.choice(legal_moves)
+    
+    tree = Tree()
 
     if visualize_tree:
+        explored_moves: List[Tuple[Tuple[int, int], Tuple[int, int]]] = []
+        
+        # Create root node
+        tree.create_node("Root", "root")
+        
+        # Add all legal moves as children of root (representing one ply of search)
+        for idx, (src, dst) in enumerate(legal_moves):
+            node_id = f"move_{idx}"
+            src_label = f"{chr(ord('A') + src[1])}{src[0] + 1}"
+            dst_label = f"{chr(ord('A') + dst[1])}{dst[0] + 1}"
+            label = f"{src_label} → {dst_label}"
+            tree.create_node(label, node_id, parent="root")
+        
+        print("\n=== Search Tree Visualization ===")
+        tree.show()
+        print(f"\nTotal moves explored: {len(legal_moves)}")
+        print("Note: Random bot does no lookahead beyond 1 ply.")
+        '''
         visited_board = [row[:] for row in board]
         explored_moves: set = set()
-        #tree = Tree()
-        #tree.create_node(str(oldPos[0])+""+str(oldPos[1]), parent="root")
+
+
+        #new_reference: str = chr(ord("A") + newPos[1]) + str(newPos[0] + 1)
+        oldPos, newPos = legal_moves[-1]
+
 
         while legal_moves:
             oldPos, newPos = legal_moves.pop()
+
             # Something happens
             # This part of the code adds more legal moves to the legal_moves array.
 
             move_key = (oldPos, newPos)
             if move_key in explored_moves:
                 continue
-
+            
             explored_moves.add(move_key)
+
             visited_board[newPos[0]][newPos[1]] = VISITED_CONST()
 
             for row in range(5):
@@ -315,9 +340,22 @@ def random_bot(
                                 dstKey = (srcPos, dstPos)
                                 if dstKey not in explored_moves:
                                     legal_moves.append((srcPos, dstPos))
+        tree.create_node("root", "root")
+        num = 0
+        for i in explored_moves:
+            print(i)
+
+        for i in explored_moves:
+            if not tree.contains(f"{i[0][0]}:{i[0][1]}"):
+                tree.create_node(f"{i[0][0]}:{i[0][1]}", f"{i[0][0]}:{i[0][1]}", parent="root")
             
-        
-        print("Random bot: no minimax search tree to visualize.")
+            if not tree.contains(f"{i[1][0]}:{i[1][1]}"):
+                tree.create_node(f"{i[1][0]}:{i[1][1]}", f"{i[1][0]}:{i[1][1]}", parent="root")
+            num+=2
+        for i in explored_moves:
+            tree.move_node(f"{i[1][0]}:{i[1][1]}", f"{i[0][0]}:{i[0][1]}")
+        tree.show()
+        print("Random bot: no minimax search tree to visualize.")'''
     old_reference: str = chr(ord("A") + oldPos[1]) + str(oldPos[0] + 1)
     new_reference: str = chr(ord("A") + newPos[1]) + str(newPos[0] + 1)
 
