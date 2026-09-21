@@ -1,9 +1,13 @@
 from typing import Dict, List, NamedTuple, Tuple
 import random
+from treelib import Tree
 
 '''
 Helper Class to contain the results
 '''
+
+def VISITED_CONST():
+    return -1
 
 class GameResult(NamedTuple):
     status: str
@@ -239,6 +243,7 @@ def check_win_condition(
         losers=losers
     )
     
+   
 
 def random_bot(
     board: List[List[int]],
@@ -257,6 +262,7 @@ def random_bot(
 
     legal_moves: List[Tuple[Tuple[int, int], Tuple[int, int]]] = []
 
+    # horribly inneficient approach
     for row in range(5):
         for column in range(5):
             if board[row][column] != player:
@@ -272,22 +278,51 @@ def random_bot(
                         legal_moves.append((oldPos, newPos))
     
 
-    bfs()
     if not legal_moves:
         raise ValueError(f"Player {player} has no legal moves")
     
     oldPos, newPos = random.choice(legal_moves)
-    bfs(board, player, visualize_tree, oldPos)
-
-
 
     if visualize_tree:
-        print("Random bot: no minimax search tree to visualize.")
+        visited_board = [row[:] for row in board]
+        explored_moves: set = set()
+        #tree = Tree()
+        #tree.create_node(str(oldPos[0])+""+str(oldPos[1]), parent="root")
 
+        while legal_moves:
+            oldPos, newPos = legal_moves.pop()
+            # Something happens
+            # This part of the code adds more legal moves to the legal_moves array.
+
+            move_key = (oldPos, newPos)
+            if move_key in explored_moves:
+                continue
+
+            explored_moves.add(move_key)
+            visited_board[newPos[0]][newPos[1]] = VISITED_CONST()
+
+            for row in range(5):
+                for column in range(5):
+                    if visited_board[row][column] != player:
+                        continue
+
+                    srcPos: Tuple[int, int] = (row, column)
+                    for new_row in range(5):
+                        for new_column in range(5):
+                            dstPos: Tuple[int, int] = (new_row, new_column)
+
+                            if check_legal_move(visited_board, srcPos, dstPos):
+                                dstKey = (srcPos, dstPos)
+                                if dstKey not in explored_moves:
+                                    legal_moves.append((srcPos, dstPos))
+            
+        
+        print("Random bot: no minimax search tree to visualize.")
     old_reference: str = chr(ord("A") + oldPos[1]) + str(oldPos[0] + 1)
     new_reference: str = chr(ord("A") + newPos[1]) + str(newPos[0] + 1)
 
     return old_reference, new_reference
+    
 
 def illegal_bot(
     board: List[List[int]],
@@ -315,32 +350,4 @@ def illegal_bot(
 
     raise ValueError(f"Player {player} has no pieces")
        
-def bfs(
-    board: List[List[int]],
-    player: int,
-    visualize_tree: bool,
-    pos: List[int]
-    ):
-
-
-    visited: List[List[int]] = [
-      [0,0,0,0,0],
-      [0,0,0,0,0],
-      [0,0,0,0,0],
-      [0,0,0,0,0],
-      [0,0,0,0,0]
-    ]
-
-    queue = []
-    queue.append(pos)
-    visited[pos[0]][pos[1]] = 1;
-
-    while queue:
-        s = queue.pop(0)
-        print(s)
-        nextPos = [[pos[0]+1, pos[1]] ,[pos[0]+2, pos[1]] ,[pos[0]-1, pos[1]] ,[pos[0]-2, pos[1]], [pos[0], pos[1]+1], [pos[0], pos[1]+2], [pos[0], pos[1]-1], [pos[0], pos[1]-2]]
-        for i in nextPos:
-            if check_legal_move(pos, i):
-                if visited[i[0]][i[1]] != 1:
-                    queue.append(i)
 

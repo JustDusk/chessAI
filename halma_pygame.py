@@ -16,13 +16,12 @@ from halma import (
     illegal_bot,
     win_cells_1v1,
     initial_pos_1v1,
-    bfs
 )
 
 # True: human player 1 versus bot player 2. False: two local humans.
 PLAY_AGAINST_BOT: bool = True
 MAXIMUM_MOVE_LIMIT: int = 10  # Total successful moves, across both players.
-VISUALIZE_SEARCH_TREE: bool = False # This is here to match the function signature, the random bot does not visualize anything 
+VISUALIZE_SEARCH_TREE: bool = True# This is here to match the function signature, the random bot does not visualize anything 
 BOT_DELAY_MS: int = 450
 
 INITIAL_BOARD: List[List[int]] = initial_pos_1v1
