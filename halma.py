@@ -270,15 +270,11 @@ def random_bot(
 
                     if check_legal_move(board, oldPos, newPos):
                         legal_moves.append((oldPos, newPos))
-    
 
-    bfs()
     if not legal_moves:
         raise ValueError(f"Player {player} has no legal moves")
-    
-    oldPos, newPos = random.choice(legal_moves)
-    bfs(board, player, visualize_tree, oldPos)
 
+    oldPos, newPos = random.choice(legal_moves)
 
 
     if visualize_tree:
