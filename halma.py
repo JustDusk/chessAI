@@ -262,7 +262,6 @@ def random_bot(
 
     legal_moves: List[Tuple[Tuple[int, int], Tuple[int, int]]] = []
 
-    # horribly inneficient approach
     for row in range(5):
         for column in range(5):
             if board[row][column] != player:
@@ -279,20 +278,14 @@ def random_bot(
 
     if not legal_moves:
         raise ValueError(f"Player {player} has no legal moves")
-<<<<<<< HEAD
-    
-    oldPos, newPos = random.choice(legal_moves)
-    
-    tree = Tree()
-=======
 
     oldPos, newPos = random.choice(legal_moves)
-
->>>>>>> cef899f75589b8ca141556a5ff4cd60316d23143
+    old_reference: str = chr(ord("A") + oldPos[1]) + str(oldPos[0] + 1)
+    new_reference: str = chr(ord("A") + newPos[1]) + str(newPos[0] + 1)
 
     if visualize_tree:
         explored_moves: List[Tuple[Tuple[int, int], Tuple[int, int]]] = []
-        
+        tree = Tree()
         # Create root node
         tree.create_node("Root", "root")
         
@@ -361,8 +354,6 @@ def random_bot(
             tree.move_node(f"{i[1][0]}:{i[1][1]}", f"{i[0][0]}:{i[0][1]}")
         tree.show()
         print("Random bot: no minimax search tree to visualize.")'''
-    old_reference: str = chr(ord("A") + oldPos[1]) + str(oldPos[0] + 1)
-    new_reference: str = chr(ord("A") + newPos[1]) + str(newPos[0] + 1)
 
     return old_reference, new_reference
     
