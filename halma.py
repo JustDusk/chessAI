@@ -276,14 +276,19 @@ def random_bot(
 
                     if check_legal_move(board, oldPos, newPos):
                         legal_moves.append((oldPos, newPos))
-    
 
     if not legal_moves:
         raise ValueError(f"Player {player} has no legal moves")
+<<<<<<< HEAD
     
     oldPos, newPos = random.choice(legal_moves)
     
     tree = Tree()
+=======
+
+    oldPos, newPos = random.choice(legal_moves)
+
+>>>>>>> cef899f75589b8ca141556a5ff4cd60316d23143
 
     if visualize_tree:
         explored_moves: List[Tuple[Tuple[int, int], Tuple[int, int]]] = []
